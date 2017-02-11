@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+*.pdf
+*.png
+stories.R
+timeline_trans.R
