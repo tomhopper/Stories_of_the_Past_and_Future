@@ -3,6 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(xkcd)
 library(scales)
+library(ggrepel)
 
 stories_df <- read_csv("data-raw/stories.csv") %>% 
   mutate(lo = lower - Year,
@@ -160,11 +161,12 @@ ggplot(stories_df) +
   geom_line(data = lines_df, aes(y = lower), color = muted("red"), alpha = 0.5) +
   geom_line(data = lines_df, aes(y = origin), color = "grey") +
   #geom_point(aes(y = mid_year), alpha = 0.3, shape = 1) +
-  geom_text(aes(y = mid_year, label = Movie), alpha = 0.75, check_overlap = TRUE, size = 2, family = "Gill Sans") +
-  annotate("text", y = max(lines_df$upper), x = min(stories_df$pub_year), label = "Still possible", hjust = 0, vjust = 0, size = 3, color = "grey20", fontface = "italic", family = "Gill Sans") +
-  annotate("text", y = (mean(lines_df$upper)/2), x = min(stories_df$pub_year), label = "Obsolete", hjust = 0, vjust = 0.5, size = 3, color = "grey20", fontface = "italic", family = "Gill Sans") +
-  annotate("text", y = -5, x = min(stories_df$pub_year), label = "Contemporary fiction", hjust = 0.5, size = 3, color = "grey20", fontface = "italic", family = "Gill Sans") +
-  annotate("text", y = min(lines_df$lower), x = min(stories_df$pub_year), label = "Historical fiction", hjust = 0, size = 3, color = "grey20", fontface = "italic", family = "Gill Sans") +
+  #geom_text(aes(y = mid_year, label = Movie), alpha = 0.75, check_overlap = FALSE, size = 2, family = "Gill Sans") +
+  geom_text_repel(aes(y = mid_year, label = Movie), alpha = 0.75, size = 2, family = "Gill Sans") +
+  annotate("text", y = max(lines_df$upper), x = min(stories_df$pub_year), label = "Still possible", hjust = 0, vjust = 0, size = 3, color = muted("green"), fontface = "italic", family = "Gill Sans") +
+  annotate("text", y = (mean(lines_df$upper)/2), x = min(stories_df$pub_year), label = "Obsolete", hjust = 0, vjust = 0.5, size = 3, color = muted("red"), fontface = "italic", family = "Gill Sans") +
+  annotate("text", y = -5, x = min(stories_df$pub_year), label = "Contemporary fiction", hjust = 0.5, size = 3, color = muted("blue"), fontface = "italic", family = "Gill Sans") +
+  annotate("text", y = min(lines_df$lower), x = min(stories_df$pub_year), label = "Historical fiction", hjust = 0, size = 3, color = muted("purple"), fontface = "italic", family = "Gill Sans") +
   scale_y_continuous(trans = "y_scale",
                      breaks = c(-10000, -1000, -100, -10, 0, 10, 100, 1000, 10000, 100000, 1000000, 10000000),
                      name = "Years in the Past / Future",
@@ -175,6 +177,7 @@ ggplot(stories_df) +
                      name = "Date of Publication") +
   coord_cartesian(xlim = c(2 * min(stories_df$pub_year) - max(stories_df$pub_year), max(stories_df$pub_year))) +
   labs(title = "Stories of the past and future",
+       subtitle = "A visualization based on XKCD's concept",
        caption = "Based on xkcd 1491, produced in R (R Core Team 2016) CC BY-SA 2017 Thomas Hopper") +
   theme_minimal() +
   theme(text = element_text(family = "Gill Sans"),
