@@ -17,7 +17,6 @@ For example, The Count of Monte Cristo was published in 1844, and the story span
 ## To Do
 
 * Add some additional notations.
-* Alter y-scale transformation to further separate near-future/-past works.
 * Improve the scale transformations to provide smother transitions (probably add additional steps in the transform).
 * Add bars to indicate the range of years across which a work takes place.
 
