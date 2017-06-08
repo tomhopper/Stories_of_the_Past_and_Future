@@ -8,6 +8,14 @@ The only problem with it is that it's static. We can't add other works to it. We
 
 So I decided to recreate it in R.
 
+The original:
+
+[![xkcd stories graph](http://imgs.xkcd.com/comics/stories_of_the_past_and_future_large.png)](https://xkcd.com/1491/)
+
+My version:
+
+![stories graph](figs/stories_past_future.png "Stories of the Past and Future")
+
 ## Use
 
 Data is stored in /data-raw/stories.csv, a UTF-8-encoded comma-separated value file. The first column contains the name of the work (inaccurately labeled "Movies"), the second column is the publication date, and the third and fourth colums are the range of dates in which the work is set.
