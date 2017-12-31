@@ -176,9 +176,9 @@ x_inv <- function(x) {
   inv_min <- lin_x_fun(params_x_trans()$lin_min, params_x_trans()$x_slope, params_x_trans()$x_intercept)
   inv_max <- lin_x_fun(params_x_trans()$lin_max, params_x_trans()$x_slope, params_x_trans()$x_intercept)
   line1 <- rwrap(lin_x_inv_fun, inv_min, inv_max)(x, params_x_trans()$x_slope, params_x_trans()$x_intercept)
-
+  
   # logarithmic portion
-    inv_min <- log_x_fun(params_x_trans()$log_min)
+  inv_min <- log_x_fun(params_x_trans()$log_min)
   inv_max <- log_x_fun(params_x_trans()$log_max)
   line2 <- rwrap(log_x_inv_fun, inv_min, inv_max)(x)
   
@@ -198,6 +198,10 @@ x_labeller <- function(x) {
   as.integer(round(x, 0))
 }
 
+# Set up the "this graphic" label
+origin_df <- data_frame(pub_year = as.numeric(substr(Sys.Date(), 1, 4)),
+                        mid_year = 0,
+                        Movie = c("this graphic"))
 
 # Load data from csv, 
 # create range in years from today's date for when the story takes place,
@@ -225,14 +229,31 @@ ggplot(stories_df) +
   #geom_errorbar(aes(ymin = lo, ymax = up), color = "gray80") +
   #geom_point(aes(y = mid_year), alpha = 0.3, shape = 1) +
   #geom_text(aes(y = mid_year, label = Movie), alpha = 0.75, check_overlap = FALSE, size = 2, family = "Gill Sans") +
-  geom_text_repel(aes(y = mid_year, label = Movie), alpha = 0.75, size = 2.25, family = "Gill Sans", box.padding = unit(0.15, "lines"), segment.color = "gray30") +
-  annotate("text", y = max(lines_df$upper), x = min(stories_df$pub_year), label = "Still possible", hjust = 0, vjust = 0, size = 3, color = muted("green"), fontface = "italic", family = "Gill Sans") +
-  annotate("text", y = (mean(lines_df$upper)/2), x = min(stories_df$pub_year), label = "Obsolete", hjust = 0, vjust = 0.5, size = 3, color = muted("red"), fontface = "italic", family = "Gill Sans") +
-  annotate("text", y = -5, x = min(stories_df$pub_year), label = "Contemporary fiction", hjust = 0.5, size = 3, color = muted("blue"), fontface = "italic", family = "Gill Sans") +
-  annotate("text", y = min(lines_df$lower), x = min(stories_df$pub_year), label = "Historical fiction", hjust = 0, size = 3, color = muted("purple"), fontface = "italic", family = "Gill Sans") +
+  geom_point(data = origin_df, aes(y = mid_year), shape = 4) +
+  geom_text(data = origin_df, aes(y = mid_year, label = Movie), 
+            alpha = 0.75, size = 2.25, family = "Gill Sans", 
+            position = position_nudge(x = 0, y = 0.5), hjust = 0, vjust = 0.5) +
+  geom_text_repel(aes(y = mid_year, label = Movie), 
+                  alpha = 0.75, size = 2.25, family = "Gill Sans", 
+                  box.padding = unit(0.15, "lines"), segment.color = "gray30") +
+  annotate(geom = "text", y = max(lines_df$upper), x = min(stories_df$pub_year) -(max(stories_df$pub_year) - min(stories_df$pub_year))/4, 
+           label = "Speculative futures", 
+           angle = 90, hjust = 1, size = 3.2, fontface = "italic", family = "Gill Sans") +
+  annotate(geom = "text", y = max(lines_df$upper), x = min(stories_df$pub_year), 
+           label = "Still possible", 
+           hjust = 0, vjust = 0, size = 3, color = muted("green"), fontface = "italic", family = "Gill Sans") +
+  annotate(geom = "text", y = (mean(lines_df$upper)/2), x = min(stories_df$pub_year), 
+           label = "Obsolete", 
+           hjust = 0, vjust = 0.5, size = 3, color = muted("red"), fontface = "italic", family = "Gill Sans") +
+  annotate(geom = "text", y = -5, x = min(stories_df$pub_year), 
+           label = "May read as\ncontemporary fiction", 
+           hjust = 0, size = 3, color = muted("blue"), fontface = "italic", family = "Gill Sans") +
+  annotate(geom = "text", y = min(lines_df$lower), x = min(stories_df$pub_year), 
+           label = "Recognizable as\nhistorical fiction", 
+           hjust = 0, size = 3, color = muted("purple"), fontface = "italic", family = "Gill Sans") +
   scale_y_continuous(trans = "y_scale",
                      breaks = c(-10000, -1000, -100, -10, 0, 10, 100, 1000, 10000, 100000, 1000000, 10000000),
-                     name = "Years in the Past / Future",
+                     name = "Years Set in the Past / Future",
                      labels = comma) +
   scale_x_continuous(trans = "x_scale", 
                      breaks = c(-2000, 0, 1000, 1800, 1900, 1980, 2000, 2010, today_year()),
