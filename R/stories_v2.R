@@ -266,7 +266,9 @@ ggplot(stories_df) +
   theme_minimal() +
   theme(text = element_text(family = "Gill Sans", size = 14),
         plot.caption = element_text(size = 6),
-        panel.grid = element_blank())
+        panel.grid = element_line(color = "grey 90"),
+        panel.grid.major = element_line(size = 0.5),
+        panel.grid.minor = element_line(size = 0.1))
 # Save the plot as png
 ggsave("figs/stories_past_future.png", type = "cairo-png", dpi = 150, width = 10, height = 10, units = "in")
 ggsave("figs/stories_past_future.pdf", device = cairo_pdf, width = 10, height = 10, units = "in")
