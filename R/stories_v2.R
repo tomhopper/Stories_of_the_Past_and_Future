@@ -256,13 +256,13 @@ ggplot(stories_df) +
                      name = "Years Set in the Past / Future",
                      labels = comma) +
   scale_x_continuous(trans = "x_scale", 
-                     breaks = c(-2000, 0, 1000, 1800, 1900, 1980, 2000, 2010, today_year()),
+                     breaks = c(-2000, 0, 1000, 1500, 1800, 1900, 1960, 1970, 1980, 1990, 2000, 2010, today_year()),
                      labels = x_labeller,
                      name = "Date of Publication") +
   coord_cartesian(xlim = c(2 * min(stories_df$pub_year) - max(stories_df$pub_year), max(stories_df$pub_year))) +
   labs(title = "Stories of the past and future",
        subtitle = "A visualization based on XKCD's concept",
-       caption = "Based on xkcd 1491, produced in R (R Core Team 2016) CC BY-SA 2017 Thomas Hopper") +
+       caption = "Based on xkcd 1491, produced in R (R Core Team 2016) CC BY-SA 2018 Thomas Hopper") +
   theme_minimal() +
   theme(text = element_text(family = "Gill Sans", size = 14),
         plot.caption = element_text(size = 6),
