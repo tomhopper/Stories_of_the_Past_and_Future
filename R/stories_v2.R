@@ -271,5 +271,5 @@ ggplot(stories_df) +
         panel.grid.major = element_line(size = 0.5),
         panel.grid.minor = element_line(size = 0.1))
 # Save the plot as png
-ggsave("figs/stories_past_future.png", type = "cairo-png", dpi = 150, width = 10, height = 10, units = "in")
-ggsave("figs/stories_past_future.pdf", device = cairo_pdf, width = 10, height = 10, units = "in")
+ggsave("figs/stories_past_future.png", type = "cairo-png", dpi = 150, width = 10, height = 13, units = "in")
+ggsave("figs/stories_past_future.pdf", device = cairo_pdf, width = 10, height = 13, units = "in")
